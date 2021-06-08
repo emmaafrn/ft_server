@@ -10,6 +10,7 @@
               listen [::]:443 ssl http2;
 
               root /var/www/html;
+              autoindex on;
               index index.html index.php;
 
               ssl_certificate /etc/nginx/ssl/localhost.pem;
