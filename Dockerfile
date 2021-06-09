@@ -17,8 +17,7 @@ WORKDIR /
 RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
 RUN cp /srcs/config /etc/nginx/sites-available
 RUN ln -s /etc/nginx/sites-available/config /etc/nginx/sites-enabled
-RUN service mysql start && mysqladmin -u root password root && mysql -u root -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES; update mysql.user set plugin='' where user='root';"
+RUN service mysql start && mysqladmin -u root password root && mysql -u root -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -nodes -out /etc/nginx/ssl/localhost.pem -keyout /etc/nginx/ssl/localhost.key -subj "/C=FR/ST=Lyon/L=Lyon/O=42 School/OU=emma/CN=localhost"
-CMD bash /srcs/change_autoindex.sh
-ENTRYPOINT service php7.3-fpm start && service mysql start && service nginx start && /bin/bash
+CMD bash /srcs/change_autoindex.sh && service php7.3-fpm start && service mysql start && service nginx start && /bin/bash
